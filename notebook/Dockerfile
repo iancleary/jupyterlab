@@ -21,6 +21,8 @@ RUN apt install -y zsh
 # set the zsh theme
 USER $NB_USER
 ENV ZSH_THEME robbyrussell
+# run the installation script
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 ## Pip and Python Packages
 RUN pip install --upgrade pip
