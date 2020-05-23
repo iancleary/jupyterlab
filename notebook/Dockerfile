@@ -47,6 +47,9 @@ RUN unset NODE_OPTIONS
 RUN mkdir -p /home/jovyan/.jupyter/custom/
 COPY custom/custom.css  /home/jovyan/.jupyter/custom/custom.css
 
+# set default shell
+ENV SHELL=/usr/bin/zsh
+
 ###
 # ensure image runs as unpriveleged user by default.
 ###
