@@ -1,0 +1,14 @@
+/* ~/.jupyter/custom/custom.css */
+
+/* Reference: https://stackoverflow.com/a/35342269/13577666 */
+
+/* Make the notebook cells take almost all available width */
+.container {
+    width: 98% !important;
+}
+
+/* Prevent the edit cell highlight box from getting clipped;
+ * important so that it also works when cell is in edit mode*/
+div.cell.selected {
+    border-left-width: 1px !important;
+}

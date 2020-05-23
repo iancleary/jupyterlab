@@ -9,7 +9,7 @@ VERSION?= latest
 
 IMAGE=$(NS)/$(IMAGE_NAME)
 
-VOLUMES=-v $(HOME)/jupyter/:/home/jovyan/
+VOLUMES=-v $(HOME)/jupyter/:/home/jovyan/jupyter/
 
 # notebook and lab args defaults, override in make.env
 GEN_CERT=-e GEN_CERT=yes
