@@ -14,11 +14,15 @@ Images are built and pushed to DockerHub automatically on push to master branch.
 
 Feel free to grab anything you want.
 
+| Directory   |      Image      |  Description |
+|----------|:-------------:|:------:|
+| [notebook](notebook)  |  [iancleary/notebook](https://hub.docker.com/repository/docker/iancleary/notebook) | Jupyter Notebook with ZSH and Custom CSS |
+
 ## Attributions
 
 The Basic Idea
 
 This is a template module collecting many utilities I have liked from other projects, to serve as a personal reference.
 
-- [https://github.com/dawidd6/docker](https://github.com/dawidd6/docker)
-- [https://github.com/jessfraz/dockerfiles](https://github.com/jessfraz/dockerfiles)
+- [https://github.com/dawidd6/docker](https://github.com/dawidd6/docker) for the GitHub Action and Repo Structure
+- [https://github.com/jessfraz/dockerfiles](https://github.com/jessfraz/dockerfiles) as a reference for bindings for various applications
