@@ -43,6 +43,10 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 # (OS X/Linux)
 RUN unset NODE_OPTIONS
 
+# Custom CSS
+RUN mkdir -p /home/jovyan/.jupyter/custom/
+COPY custom/custom.css  /home/jovyan/.jupyter/custom/custom.css
+
 ###
 # ensure image runs as unpriveleged user by default.
 ###
