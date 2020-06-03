@@ -17,6 +17,10 @@ USER $NB_USER
 USER root
 RUN apt install -y zsh
 
+## Fix up permissions
+USER root
+RUN chown jovyan:users -R /home/jovyan /opt/conda
+
 ## Oh My ZSH
 # set the zsh theme
 USER $NB_USER
