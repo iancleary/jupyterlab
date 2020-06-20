@@ -17,6 +17,8 @@ Feel free to grab anything you want.
 | Directory   |      Image      |  Description |
 |----------|:-------------:|:------:|
 | [notebook](notebook)  |  [iancleary/notebook](https://hub.docker.com/repository/docker/iancleary/notebook) | Jupyter Notebook with ZSH and Custom CSS |
+| [ubuntu1804-ansible-desktop](ubuntu1804-ansible-desktop)  |  [iancleary/ubuntu1804-ansible-desktop](https://hub.docker.com/repository/docker/iancleary/ubuntu1804-ansible-desktop) | Dockerfile for [iancleary/ansible-desktop](https://github.com/iancleary/ansible-desktop) CI Testing|
+| [ubuntu2004-ansible-desktop](ubuntu2004-ansible-desktop)  |  [iancleary/ubuntu2004-ansible-desktop](https://hub.docker.com/repository/docker/iancleary/ubuntu2004-ansible-desktop) | Dockerfile for [iancleary/ansible-desktop](https://github.com/iancleary/ansible-desktop) CI Testing|
 
 ## Attributions
 
