@@ -70,6 +70,7 @@ COPY custom/overrides.json /opt/conda/share/jupyter/lab/settings/
 
 USER root
 
+# Fix permissions on custom files and files needed to set overrides
 RUN fix-permissions "/home/${NB_USER}/.local/share/fonts" && \
     fix-permissions "/home/${NB_USER}/.zshrc" && \
     fix-permissions "/home/${NB_USER}/.zshrc_aliases" && \
