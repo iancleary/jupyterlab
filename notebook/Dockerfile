@@ -26,6 +26,8 @@ RUN apt-get update --yes && \
     # texlive-plain-generic \
     # Enable clipboard on Linux host systems
     xclip \
+    # font for powerline10k
+    fontconfig \
     # Terminal Customization
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -36,33 +38,49 @@ RUN update-alternatives --install /usr/bin/nano nano /bin/nano-tiny 10
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
-# Add R mimetype option to specify how the plot returns from R to the browser
-# COPY --chown=${NB_UID}:${NB_GID} Rprofile.site /opt/conda/lib/R/etc/
-
-# Add RUN statements to install packages as the $NB_USER defined in the base images.
-
-# Add a "USER root" statement followed by RUN statements to install system packages using apt-get,
-# change file permissions, etc.
-
-# If you do switch to root, always be sure to add a "USER $NB_USER" command at the end of the
-# file to ensure the image runs as a unprivileged user by default.
 
 ## Fix up permissions
 USER root
 RUN fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# Custom CSS
+# Custom CSS, Themes, Fonts
 RUN mkdir -p "/home/${NB_USER}/.jupyter/custom/"
 COPY custom/custom.css  "/home/${NB_USER}/.jupyter/custom/custom.css"
 
 
-## Oh My ZSH
-# set the zsh theme
+## Oh My ZSH and Powerlevel10k
+## See https://github.com/iancleary/ansible-role-ohmyzsh
 USER $NB_USER
-ENV ZSH_THEME robbyrussell
 # run the installation script
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true && \
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k && \
+    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/fast-syntax-highlighting && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    mkdir -p ~/.local/share/fonts/ && \
+    cd ~/.local/share/fonts/ && \
+    wget -O 'MesloLGS NF Regular.ttf' https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf && \
+    wget -O 'MesloLGS NF Bold.ttf' https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf && \
+    wget -O 'MesloLGS NF Italic.ttf' https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf && \
+    wget -O 'MesloLGS NF Bold Italic.ttf' https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf && \
+    fc-cache -f -v
+
+COPY custom/.zshrc custom/.zshrc_aliases custom/.p10k.zsh /home/${NB_USER}/
+COPY custom/overrides.json /opt/conda/share/jupyter/lab/settings/
+
+USER root
+
+RUN fix-permissions "/home/${NB_USER}/.local/share/fonts" && \
+    fix-permissions "/home/${NB_USER}/.zshrc" && \
+    fix-permissions "/home/${NB_USER}/.zshrc_aliases" && \
+    fix-permissions "/home/${NB_USER}/.p10k.zsh" && \
+    fix-permissions "/opt/conda/share/jupyter/lab/settings/overrides.json" && \
+    mkdir -p "/home/${NB_USER}/.jupyter/lab/user-settings/" && \
+    fix-permissions "/home/${NB_USER}/.jupyter/lab/user-settings/" && \
+    mkdir -p "/home/${NB_USER}/.jupyter/lab/workspaces/" && \
+    fix-permissions "/home/${NB_USER}/.jupyter/lab/workspaces/"
+
+USER ${NB_UID}
 
 ## Pip and Python Packages
 RUN pip install --upgrade pip
@@ -81,7 +99,7 @@ RUN pip install --upgrade pip
 
 # Unset NODE_OPTIONS environment variable
 # (OS X/Linux)
-RUN unset NODE_OPTIONS
+# RUN unset NODE_OPTIONS
 
 
 # set default shell
