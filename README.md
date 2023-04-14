@@ -30,3 +30,34 @@ This is a template module collecting many utilities I have liked from other proj
 
 - [https://github.com/dawidd6/docker](https://github.com/dawidd6/docker) for the GitHub Action and Repo Structure
 - [https://github.com/jessfraz/dockerfiles](https://github.com/jessfraz/dockerfiles) as a reference for bindings for various applications
+
+## Custom Preferences in Jupyterlab
+
+
+### Jupyterlab Settings Preferences
+
+<https://stackoverflow.com/a/70485739>
+
+Using overrides.json is the current recommended approach:
+
+<https://jupyterlab.readthedocs.io/en/stable/user/directories.html#overridesjson>
+
+In short: check the application directory with jupyter lab path and place a file named overrides.json containing
+
+```json
+{
+    "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Dark"
+    }
+}
+```
+
+into <application directory>/settings/ (e.g. /opt/conda/share/jupyter/lab/settings/ for the official jupyter docker containers)
+
+So if you want to have the base image from jupyter with dark theme, the Dockerfile would be
+
+```Dockerfile
+FROM jupyter/base-notebook
+
+COPY overrides.json /opt/conda/share/jupyter/lab/settings/
+```
